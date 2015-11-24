@@ -1,7 +1,9 @@
 ############################################
 # My section
 ############################################
-
+# largish data sets
+handwriting/test.csv
+handwriting/train.csv
 
 
 
@@ -86,3 +88,4 @@ docs/_build/
 
 # PyBuilder
 target/
+.Rproj.user
