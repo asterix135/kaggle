@@ -6,6 +6,7 @@ require(e1071)
 # Import data and split train/test/validate
 num_data <- read.csv('train.csv')
 num_data$label <- as.factor(num_data$label)
+set.seed(5485846)
 train_crit <- createDataPartition(y=num_data$label, p=0.7, list = FALSE)
 training <- num_data[train_crit,]
 testing <- num_data[-train_crit,]
@@ -15,34 +16,49 @@ testing <- training[test_crit,]
 
 
 # See how k-means does
-# Spoiler Alert - Out of Memory Error :(s
+require(class)
+k=1 
+test_pred <- as.integer(as.character(knn(training, testing, 
+                                         training$label, k)))
+conf_matrix <- confusionMatrix(test_pred, testing$label)
 
-require(RWeka)
-correct_pct <- data.frame(k = NULL, pctCorrect = NULL)
-for (k in 1:20) {
-    set.seed(2465)
-    classifier <- IBk(label~., data = training,
-                      control = Weka_control(K = k))
-    eval_data <- evaluate_Weka_classifier(classifier, numFolds = 5)
-    correct_pct[k,1] <- k
-    correct_pct[k,2] <- eval_data[[2]][1]
+# Model is perfect on test set with k=1!
+valid_pred <- as.integer(as.character(knn(training, validation,
+                                          training$label, k)))
+cm2 <- confusionMatrix(valid_pred, validation$label)
+# accuracy here is 96.8% Not as good :(
+# Let's try a few other k values
+k <- 3
+valid_pred <- as.integer(as.character(knn(training, validation,
+                                          training$label, k)))
+
+# probably the best way to choose k, and get a good prediction is through
+# k-fold validation
+## This is going to be slow.  Like overnight running slow...
+set.seed(324987)
+folds <- createFolds(num_data$label)
+knn_perf <- data.frame()
+for (k in seq(1,201,by=10)) {
+    k_acc <- NULL
+    for (f in folds) {
+        train <- num_data[-f,]; test <- num_data[f,]
+        preds <- knn(train, test, train$label, k)
+        fold_acc <- confusionMatrix(preds, train$label)$overall['Accuracy']
+        k_acc <- c(k_acc, fold_acc)
+    knn_perf <- rbind(knn_perf, c(k, mean(k_acc)))
+    }
 }
-colnames(correct_pct) <- c('k', 'pct_correct')
-correct_pct
+colnames(knn_perf) <- c('k', 'Accuracy')
+knn_perf
 
-plot(correct_pct$k, correct_pct$pct_correct, type='l',
+# and graphically...
+plot(knn_perfk$k, knn_perf$Accuracy, type='l',
      ylab = "Percent Correct",
      xlab = 'k value',
      main = 'Predicted Accuracy of kNN for different k values')
 
-# This might be less memory intensive
 
-require(class)
-k=1 # need to make 1-20 for loop etc
-test_pred <- as.integer(as.character(knn(training, testing, 
-                                         training$label, k)))
-conf_matrix <- confusionMatrix(test_pred, training$label)
-# pull out apropriate stat for comparison
+
 
 # Let's try a random forest..
 
