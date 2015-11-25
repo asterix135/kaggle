@@ -1,7 +1,8 @@
-setwd('./handwriting')
+# Make sure working directory is set to file with data files
+#setwd('./handwriting')
 require(caret)
 require(e1071)
-require(class)
+require
 
 num_data <- read.csv('train.csv')
 num_data$label <- as.factor(num_data$label)
