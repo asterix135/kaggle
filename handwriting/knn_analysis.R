@@ -15,7 +15,7 @@ for (k in seq(1,201,by=10)) {
     for (f in folds) {
         train <- num_data[-f,]; test <- num_data[f,]
         preds <- knn(train, test, train$label, k)
-        fold_acc <- confusionMatrix(preds, train$label)$overall['Accuracy']
+        fold_acc <- confusionMatrix(preds, test$label)$overall['Accuracy']
         k_acc <- c(k_acc, fold_acc)
         knn_perf <- rbind(knn_perf, c(k, mean(k_acc)))
     }
