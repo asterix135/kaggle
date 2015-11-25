@@ -35,11 +35,12 @@ valid_pred <- as.integer(as.character(knn(training, validation,
 # probably the best way to choose k, and get a good prediction is through
 # k-fold validation
 ## This is going to be slow.  Like overnight running slow...
+## Run directly from knn_analysis.R
 set.seed(324987)
 folds <- createFolds(num_data$label)
 knn_perf <- data.frame()
 for (k in seq(1,201,by=10)) {
-    k_acc <- NULL
+    k_acc <- vector()
     for (f in folds) {
         train <- num_data[-f,]; test <- num_data[f,]
         preds <- knn(train, test, train$label, k)
