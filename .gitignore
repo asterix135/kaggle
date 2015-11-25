@@ -1,11 +1,22 @@
 ############################################
 # My section
 ############################################
-# largish data sets
+# handwriting contest
 handwriting/test.csv
 handwriting/train.csv
 
+# Prudential Contest
+prudential/sample_submission.csv
+prudential/test.csv
+prudential/train.csv
 
+# Airbnb Contest
+airbnb/age_gender_bkts.csv
+airbnb/countries.csv
+airbnb/sample_submission.csv
+airbnb/sessions.csv
+airbnb/test_users.csv
+airbnb/train_users.csv
 
 ############################################
 # R Section
@@ -20,6 +31,7 @@ handwriting/train.csv
 
 # RStudio files
 .Rproj.user/
+.DS_Store
 
 # produced vignettes
 vignettes/*.html
