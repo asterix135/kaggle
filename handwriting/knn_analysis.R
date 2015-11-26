@@ -2,7 +2,7 @@
 #setwd('./handwriting')
 require(caret)
 require(e1071)
-require
+require(class)
 
 num_data <- read.csv('train.csv')
 num_data$label <- as.factor(num_data$label)
