@@ -14,6 +14,8 @@ test_crit <- createDataPartition(y=testing$label, p=0.7, list=FALSE)
 validation <- testing[-test_crit,]
 testing <- training[test_crit,]
 
+# quick PCA
+num_pca <- prcomp(num_data[,-1])
 
 # See how k-means does
 require(class)
