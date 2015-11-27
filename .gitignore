@@ -32,6 +32,7 @@ airbnb/train_users.csv
 # RStudio files
 .Rproj.user/
 .DS_Store
+.RData
 
 # produced vignettes
 vignettes/*.html
