@@ -22,18 +22,21 @@ testing <- training[test_crit,]
 
 #PCA pre-processing
 
-# This doesn't work for some reason - zero variance
+# 1. Get rid of zero-variance variables
+drop_cols <- nearZeroVar(training)
+training <- training[,-drop_cols]
+testing <- testing[,-drop_cols]
+validation <- validation[,-drop_cols]
+
+# Build Simple RF Model
+rf_model <- train(label ~ ., data=training, method='rf')
+
+
+# PCA
 preObj <- preProcess(training[,-1], method=c('pca'), thresh=0.99)
 # where do we have all 0s or zero variance?
-apply(training[,-1], 2, var)
-# drop columns with zero variance from all 3 data sets
-
-
-
-num_pca <- prcomp(training[,-1])
 train_pca <- cbind(label = training$label, num_pca$x[,485])
 
-rf_model <- train(label ~ ., data=train_pca, method='rf')
 
 test_pca <- predict(num_pca, testing)
 test_pca <- data.frame(cbind(label = testing$label, test_pca))
