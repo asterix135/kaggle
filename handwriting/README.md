@@ -1,3 +1,3 @@
-# Files for practice handwriting recognition contest on Kaggle
+# My approach to dealing with the Handwriting Analysis Question
 
-note: data files excluded from repo
+see main_walkthrough.R for approach
