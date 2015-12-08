@@ -79,5 +79,13 @@ kaggle_rf_preds <- data.frame(ImageId=1:length(kaggle_rf_preds),
 write.csv(kaggle_rf_preds, 'kaggle_rf_preds.csv', row.names=FALSE)
 
 # 0.95471 - not an improvement :(
+# should try playing with these...
 
+## gbm model?
 
+gbm_model<-train(label ~ ., data=training, method="gbm",
+                 trControl = trainControl(method="cv", number=5),
+                 prox=TRUE, allowParallel=TRUE)
+
+test_gbm_preds <- predict(gbm_model, testing)
+kaggle_gbm_preds <- predict(gbm_model, kaggle_test)
