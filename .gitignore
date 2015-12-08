@@ -4,6 +4,7 @@
 # handwriting contest
 handwriting/test.csv
 handwriting/train.csv
+handwriting/rf_model.RData
 
 # Prudential Contest
 prudential/sample_submission.csv
