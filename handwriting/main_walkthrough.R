@@ -81,11 +81,19 @@ write.csv(kaggle_rf_preds, 'kaggle_rf_preds.csv', row.names=FALSE)
 # 0.95471 - not an improvement :(
 # should try playing with these...
 
-## gbm model?
+## nb model?
 
-gbm_model<-train(label ~ ., data=training, method="gbm",
+nb_model<-train(label ~ ., data=training, method="nb",
                  trControl = trainControl(method="cv", number=5),
                  prox=TRUE, allowParallel=TRUE)
 
-test_gbm_preds <- predict(gbm_model, testing)
+test_nb_preds <- predict(nb_model, testing)
 kaggle_gbm_preds <- predict(gbm_model, kaggle_test)
+
+# 82% :(
+
+## What happens if we train a rf model on the full data set?
+
+rf_model2 <- train(label ~ ., data=num_data, method="rf",
+                   trControl = trainControl(method="cv", number=5),
+                   prox=TRUE, allowParallel=TRUE)
